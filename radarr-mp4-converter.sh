@@ -15,22 +15,22 @@ if [ $radarr_eventtype != "Download" ]; then
 	exit 0
 fi
 
-if [ ! "$radarr_movie_path" ]; then
-	>&2 echo "radarr_movie_path is not set."
+if [ ! "$radarr_moviefile_path" ]; then
+	>&2 echo "radarr_moviefile_path is not set."
 	exit 1
 fi
 
-if [ ! -f "$radarr_movie_path" ]; then
-	>&2 echo "File $radarr_movie_path not found."
+if [ ! -f "$radarr_moviefile_path" ]; then
+	>&2 echo "File $radarr_moviefile_path not found."
 	exit 1
 fi
 
-destination="${radarr_movie_path%.*}.mp4"
+destination="${radarr_moviefile_path%.*}.mp4"
 
-if ! ffmpeg -i "$radarr_movie_path" -codec copy -y "$destination" &> /dev/null; then
-	>&2 echo "Failed to convert $radarr_movie_path"
+if ! ffmpeg -i "$radarr_moviefile_path" -codec copy -y "$destination" &> /dev/null; then
+	>&2 echo "Failed to convert $radarr_moviefile_path"
 	exit 1
 fi
 
 # Remove original file as it's no longer needed
-rm "$radarr_movie_path"
+rm "$radarr_moviefile_path"
