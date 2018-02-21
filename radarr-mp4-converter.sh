@@ -25,6 +25,11 @@ if [ ! -f "$radarr_moviefile_path" ]; then
 	exit 1
 fi
 
+# No need to convert as it's already an MP4
+if [[ $radarr_moviefile_path == *.mp4 ]]; then
+	exit 0
+fi
+
 destination="${radarr_moviefile_path%.*}.mp4"
 
 if ! ffmpeg -i "$radarr_moviefile_path" -codec copy -y "$destination" &> /dev/null; then
